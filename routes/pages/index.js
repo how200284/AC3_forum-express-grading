@@ -7,7 +7,7 @@ const restController = require('../../controllers/pages/restaurant-controller')
 const userController = require('../../controllers/pages/user-controller')
 const commentController = require('../../controllers/pages/comment-controller')
 const upload = require('../../middleware/multer')
-const { authenticated, authenticatedAdmin } = require('../../middleware/auth')
+const { authenticated, authenticatedAdmin, authenticatedUser } = require('../../middleware/auth')
 const { generateErrorHandler } = require('../../middleware/error-handler')
 
 router.use('/admin', authenticatedAdmin, admin)
@@ -37,7 +37,7 @@ router.post('/following/:userId', authenticated, userController.addFollowing)
 router.delete('/following/:userId', authenticated, userController.removeFollowing)
 
 router.get('/users/top', authenticated, userController.getTopUsers)
-router.get('/users/:id/edit', authenticated, userController.editUser)
+router.get('/users/:id/edit', authenticated, authenticatedUser, userController.editUser)
 router.get('/users/:id', authenticated, userController.getUser)
 router.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
 
